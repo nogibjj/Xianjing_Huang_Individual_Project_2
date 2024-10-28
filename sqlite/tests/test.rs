@@ -3,10 +3,11 @@ mod tests {
     use once_cell::sync::Lazy;
     use rusqlite::Connection;
     use sqlite::{
-        create_exec, create_table, delete_exec, drop_table, load_data_from_csv, read_exec,
+        create_exec, create_table, delete_exec, drop_table, extract, load_data_from_csv, read_exec,
         update_exec,
     };
     use std::error::Error;
+    use std::path::Path;
     use std::sync::Mutex;
 
     static DB_MUTEX: Lazy<Mutex<()>> = Lazy::new(|| Mutex::new(()));
@@ -19,6 +20,18 @@ mod tests {
 
     fn teardown_db(conn: &Connection) {
         drop_table(conn, "test_table").expect("Failed to drop table");
+    }
+
+    #[test]
+    fn test_extract() {
+        let result = extract();
+        assert!(result.is_ok());
+        let file_path = "data/customer_new.csv";
+        assert!(Path::new(file_path).exists());
+
+        // if Path::new(file_path).exists() {
+        //     fs::remove_file(file_path).expect("Failed to remove test file");
+        // }
     }
 
     #[test]
@@ -39,7 +52,8 @@ mod tests {
     fn test_load_data_from_csv() -> Result<(), Box<dyn Error>> {
         let _lock = DB_MUTEX.lock().unwrap();
         let conn = setup_db();
-        let csv_path = "../data/customer_new.csv";
+        let _ = extract();
+        let csv_path = "data/customer_new.csv";
         load_data_from_csv(&conn, "test_table", csv_path)?;
 
         let select_query = "SELECT id, name, gender, city FROM test_table ORDER BY id";
