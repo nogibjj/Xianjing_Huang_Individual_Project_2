@@ -1,5 +1,5 @@
 # Xianjing_Huang_Individual_Project_2
-[![CI](https://github.com/nogibjj/Xianjing_Huang_Mini_Proj_7/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/Xianjing_Huang_Mini_Proj_7/actions/workflows/CI.yml)
+[![CI](https://github.com/nogibjj/Xianjing_Huang_Individual_Project_2/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/Xianjing_Huang_Individual_Project_2/actions/workflows/CI.yml)
 
 ### Directory Tree Structure
 ```
@@ -158,14 +158,14 @@ Once you build your CLI binary you can the use it like a regular CLI:
 `cargo run -- -d table1` Table 'table1' dropped.
 
 ### Optimized Rust Binary Download
-https://github.com/nogibjj/Xianjing_Huang_Mini_Proj_7/actions/runs/11467682732/artifacts/2090141328
+https://github.com/nogibjj/Xianjing_Huang_Individual_Project_2/actions/runs/11559464823/artifacts/2113666605
 
 The binary location is what gets uploaded as an artifact in the yml file.
-![8](/imgs/008.png)
+![5](/imgs/005.png)
 
 ### Continuous Integration (CI/CD Pipeline)
 
-![9](/imgs/009.png)
+![6](/imgs/006.png)
 
 ### Use of Large Language Model (LLM)
 #### 1. Syntax
