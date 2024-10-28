@@ -1,30 +1,24 @@
-# Xianjing_Huang_Mini_Proj_7
+# Xianjing_Huang_Individual_Project_2
 [![CI](https://github.com/nogibjj/Xianjing_Huang_Mini_Proj_7/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/Xianjing_Huang_Mini_Proj_7/actions/workflows/CI.yml)
 
 ### Directory Tree Structure
 ```
-Xianjing_Huang_Mini_Proj_7/
+Xianjing_Huang_Individual_Project_2/
 ├── .devcontainer/
 │   ├── devcontainer.json
 │   └── Dockerfile
 ├── .github/
 │   └── workflows/
 │       └── CI.yml
-├── add/
-│   ├── src/
-│   ├── Cargo.lock
-│   ├── Cargo.toml
-│   └── Makefile
-├── data/
-│   └── customer_new.csv
 ├── imgs/
 ├── sqlite/
+│   ├── data/
+│   │   └── customer_new.csv
 │   ├── src/
 │   │   ├── lib.rs
 │   │   └── main.rs
-│   ├── target/
-│   │   └── test.rs
 │   ├── tests/
+│   │   └── test.rs
 │   ├── Cargo.lock
 │   ├── Cargo.toml
 │   ├── Makefile
@@ -34,28 +28,33 @@ Xianjing_Huang_Mini_Proj_7/
 ```
 `Cargo.toml`: Package and dependencies.
 
-`sqlite/src/lib.rs`: 
+`sqlite/src/lib.rs`:
+- `extract`: Extract a dataset from a url to a file path.
 - `create_table`: Create a table.
 - `load_data_from_csv`: Load data from a file path to a table.
 - `drop_table`: Drop a table.
-- `query_exec`: Read records in table.
+- `create_exec`: Insert a record in the table.
+- `read_exec`: Read records in table.
 - `update_exec`: Update a record in the table.
-- `insert_exec`: Insert a record in the table.
 - `delete_exec`: Delete a record in the table.
 
 `sqlite/src/main.rs`: 
-Handle CLI features by parsing input as one of 7 options: Create, Query, Drop, Load, Insert, Update, Delete. 
+Handle CLI features by parsing input as one of 8 options (ETL-CRUD): Extract, Create, Load, Query, Insert, Update, Delete, Drop. 
 
 `sqlite/tests/test.rs`: Test for lib.
 
-`Makefile`: Defines scripts for common project tasks such as cargo check, cargo build.
+`Makefile`: Defines scripts for common project tasks such as cargo check, cargo build. Also defines custom tasks to demonstrate extract, load, and CRUD (Create, Read, Update, Delete) operations.
 
-`CI.yml`: Defines the GitHub Actions workflow for Check, Format, Test, Release, Upload Binary Artifact.
+`CI.yml`: Defines the GitHub Actions workflow for Check, Format, Test, Release, Upload Binary Artifact (Optimized Rust Binary).
 
 ### Requirements
-* Package a Python script with setuptools or a similar tool
-* Include a user guide on how to install and use the tool
-* Include communication with an external or internal database (NoSQL, SQL, etc) [If you use Rust you can skip the DB part]
+* Rust source code: The code should comprehensively understand Rust's syntax and unique features.
+* Use of LLM: In your README, explain how you utilized an LLM in your coding process.
+* SQLite Database: Include a SQLite database and demonstrate CRUD (Create, Read, Update, Delete) operations.
+* Optimized Rust Binary: Include a process that generates an optimized Rust binary as a Gitlab Actions artifact that can be downloaded.
+* README.md: A file that clearly explains what the project does, its dependencies, how to run the program, and how Gitlab Copilot was used.
+* Github/Gitlab Actions: A workflow file that tests, builds, and lints your Rust code.
+* Video Demo: A YouTube link in README.md showing a clear, concise walkthrough and demonstration of your CLI binary.
 
 
 ### Preparation

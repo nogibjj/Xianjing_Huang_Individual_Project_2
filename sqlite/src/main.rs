@@ -1,12 +1,10 @@
-// fn main() {
-//     println!("Hello, world!");
-// }
 //this will be the CLI portion of the project where we accept
 //user defined arguments and call lib.rs logic to handle them
 use clap::{Parser, Subcommand};
 use rusqlite::{Connection, Result};
 use sqlite::{
-    create_table, delete_exec, drop_table, insert_exec, load_data_from_csv, query_exec, update_exec,
+    create_exec, create_table, delete_exec, drop_table, extract, load_data_from_csv, read_exec,
+    update_exec,
 };
 
 //Here we define a struct (or object) to hold our CLI arguments
@@ -23,29 +21,31 @@ struct Cli {
 }
 
 //An enum is a type in rust that can have multiple exauhstive and mutually exclusive options
-//Create, Load, Query, Drop, Insert, Update, Delete
+//Extract, Create, Load, Query, Drop, Insert, Update, Delete
 
 #[derive(Debug, Subcommand)]
 //By separating out the commands as enum types we can easily match what the user is
 //trying to do in main
 enum Commands {
+    ///Extract a url to a file path
+    /// "sqlite -e"
+    #[command(alias = "e", short_flag = 'e')]
+    Extract {},
     ///Pass a table name to create a table
     /// "sqlite -c table1"
     #[command(alias = "c", short_flag = 'c')]
     Create { table_name: String },
     ///Pass a table name and a file path to load data from csv
-    /// "sqlite -l table1 ../data/customer_new.csv"
+    /// "sqlite -l table1 data/customer_new.csv"
     #[command(alias = "l", short_flag = 'l')]
     Load {
         table_name: String,
         file_path: String,
     },
-    ///Pass a query string to select and read data
-    /// "sqlite -q "SELECT * FROM table1;""
-    /// "sqlite -q "SELECT name, city FROM table1;""
-    /// "sqlite -q "SELECT * FROM table1 WHERE city = 'New York';""
+    ///Pass a table name to read data
+    /// "sqlite -q table1"
     #[command(alias = "q", short_flag = 'q')]
-    Query { query: String },
+    Query { table_name: String },
     ///Pass a table name to drop
     /// "sqlite -d table1"
     #[command(alias = "d", short_flag = 'd')]
@@ -56,9 +56,9 @@ enum Commands {
     Insert {
         table_name: String,
         id: i32,
-        name: Option<String>,
-        gender: Option<String>,
-        city: Option<String>,
+        name: String,
+        gender: String,
+        city: String,
     },
     ///Pass a new record to update
     /// "sqlite -u table1 11 Remi female 'Los Angeles'"
@@ -84,13 +84,17 @@ fn main() -> Result<()> {
 
     //Here we can match the behavior on the subcommand and call our lib logic
     match args.command {
+        Commands::Extract {} => {
+            println!("Extract a url to a file path");
+            extract().expect("Failed to extract");
+        }
         Commands::Create { table_name } => {
             println!("Creating Table {}", table_name);
             create_table(&conn, &table_name).expect("Failed to create table");
         }
-        Commands::Query { query } => {
-            println!("Query: {}", query);
-            query_exec(&conn, &query).expect("Failed to execute query");
+        Commands::Query { table_name } => {
+            println!("Read Table: {}", table_name);
+            read_exec(&conn, &table_name).expect("Failed to execute query");
         }
         Commands::Drop { table_name } => {
             println!("Deleting: {}", table_name);
@@ -118,15 +122,8 @@ fn main() -> Result<()> {
                 "Insert record in table '{}' with ID {}, name {:?}, gender {:?}, city {:?}",
                 table_name, id, name, gender, city
             );
-            insert_exec(
-                &conn,
-                &table_name,
-                id,
-                name.as_deref().unwrap_or("Unknown"),
-                gender.as_deref().unwrap_or("Unknown"),
-                city.as_deref().unwrap_or("Unknown"),
-            )
-            .expect("Failed to insert record");
+            create_exec(&conn, &table_name, id, &name, &gender, &city)
+                .expect("Failed to insert record");
         }
         Commands::Update {
             table_name,

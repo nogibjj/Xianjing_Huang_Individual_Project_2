@@ -3,7 +3,7 @@ mod tests {
     use once_cell::sync::Lazy;
     use rusqlite::Connection;
     use sqlite::{
-        create_table, delete_exec, drop_table, insert_exec, load_data_from_csv, query_exec,
+        create_exec, create_table, delete_exec, drop_table, load_data_from_csv, read_exec,
         update_exec,
     };
     use std::error::Error;
@@ -81,10 +81,10 @@ mod tests {
     }
 
     #[test]
-    fn test_insert_exec() {
+    fn test_create_exec() {
         let _lock = DB_MUTEX.lock().unwrap();
         let conn = setup_db();
-        insert_exec(&conn, "test_table", 1, "Jo", "male", "Durham")
+        create_exec(&conn, "test_table", 1, "Jo", "male", "Durham")
             .expect("Failed to insert record");
         let select_query = "SELECT id, name, gender, city FROM test_table WHERE id = 1";
         let mut stmt = conn.prepare(select_query).unwrap();
@@ -118,7 +118,7 @@ mod tests {
     fn test_update_exec() {
         let _lock = DB_MUTEX.lock().unwrap();
         let conn = setup_db();
-        insert_exec(&conn, "test_table", 1, "Doe", "male", "New York")
+        create_exec(&conn, "test_table", 1, "Doe", "male", "New York")
             .expect("Failed to insert record");
         update_exec(
             &conn,
@@ -161,7 +161,7 @@ mod tests {
     fn test_delete_exec() {
         let _lock = DB_MUTEX.lock().unwrap();
         let conn = setup_db();
-        insert_exec(&conn, "test_table", 1, "Mike", "male", "New York")
+        create_exec(&conn, "test_table", 1, "Mike", "male", "New York")
             .expect("Failed to insert record");
         delete_exec(&conn, "test_table", 1).expect("Failed to delete record");
         let select_query = "SELECT id FROM test_table WHERE id = 1";
@@ -186,14 +186,14 @@ mod tests {
     }
 
     #[test]
-    fn test_query_exec() {
+    fn test_read_exec() {
         let _lock = DB_MUTEX.lock().unwrap();
         let conn = setup_db();
-        insert_exec(&conn, "test_table", 1, "Jo", "male", "New York")
+        create_exec(&conn, "test_table", 1, "Jo", "male", "New York")
             .expect("Failed to insert record");
 
-        let query_string = "SELECT id, name, gender, city FROM test_table ORDER BY id";
-        query_exec(&conn, query_string).expect("Failed to execute query");
+        // let query_string = "SELECT id, name, gender, city FROM test_table ORDER BY id";
+        read_exec(&conn, "test_table").expect("Failed to execute query");
         teardown_db(&conn);
     }
 }
