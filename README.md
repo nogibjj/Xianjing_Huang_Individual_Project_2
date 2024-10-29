@@ -1,6 +1,9 @@
 # Xianjing_Huang_Individual_Project_2
 [![CI](https://github.com/nogibjj/Xianjing_Huang_Individual_Project_2/actions/workflows/CI.yml/badge.svg)](https://github.com/nogibjj/Xianjing_Huang_Individual_Project_2/actions/workflows/CI.yml)
 
+### Youtube Video Link 
+[Youtube Link](https://youtu.be/Qrgq79k4wik)
+
 ### Directory Tree Structure
 ```
 Xianjing_Huang_Individual_Project_2/
@@ -55,9 +58,6 @@ Handle CLI features by parsing input as one of 8 options (ETL-CRUD): Extract, Cr
 * README.md: A file that clearly explains what the project does, its dependencies, how to run the program, and how Gitlab Copilot was used.
 * Github/Gitlab Actions: A workflow file that tests, builds, and lints your Rust code.
 * Video Demo: A YouTube link in README.md showing a clear, concise walkthrough and demonstration of your CLI binary.
-
-### Youtube Video Link 
-[Youtube Link](https://youtu.be/r5o6zzqpUm8)
 
 ### Preparation
 1. Open codespaces
